@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'effects/super_button_builtin_effects.dart';
 import 'effects/super_button_effect.dart';
+import 'style/resolver/super_button_color_resolver.dart';
 import 'style/super_button_enums.dart';
 import 'style/super_button_style.dart';
 import 'super_button_interaction_state.dart';
@@ -8,10 +10,9 @@ import 'tokens/super_button_tokens.dart';
 
 /// Primary API widget for the package.
 ///
-/// Phase 1: Material-based placeholder that respects [SuperButtonStyle] shape/size
-/// and runs the [effects] stack with a static interaction state. Full resolvers
-/// and state-complete visuals arrive in Phase 2.
-class SuperButton extends StatelessWidget {
+/// Uses [SuperButtonColorResolver] for theme mapping and a stack of
+/// [SuperButtonEffect]s for feedback. See [doc/PHASE_2_PACKAGE_AND_EXAMPLES.md].
+class SuperButton extends StatefulWidget {
   const SuperButton({
     super.key,
     required this.onPressed,
@@ -22,6 +23,8 @@ class SuperButton extends StatelessWidget {
     this.effects = const [],
     this.loading = false,
     this.enabled = true,
+    this.semanticLabel,
+    this.tooltip,
   });
 
   final VoidCallback? onPressed;
@@ -33,63 +36,147 @@ class SuperButton extends StatelessWidget {
   final bool loading;
   final bool enabled;
 
-  static const SuperButtonInteractionState _placeholderInteraction =
-      SuperButtonInteractionState(
-    pressed: false,
-    hovered: false,
-    focused: false,
-    enabled: true,
-    loading: false,
-    selected: false,
-  );
+  /// [Semantics] label; falls back to the widget’s [tooltip] if non-null.
+  final String? semanticLabel;
+
+  /// Shown on long-press / hover; optional.
+  final String? tooltip;
 
   @override
-  Widget build(BuildContext context) {
-    final bool interactive =
-        enabled && onPressed != null && !loading;
-    final ColorScheme scheme = Theme.of(context).colorScheme;
-    final SuperButtonTokens tokens = SuperButtonTokens.of(style);
-    final double minSize = tokens.minTapTarget;
-    const double defaultRadius = 8;
-    final BorderRadius radius = tokens.borderRadiusFor(defaultRadius);
+  State<SuperButton> createState() => _SuperButtonState();
+}
 
-    final Widget? content = _buildContent(context);
-    assert(
-      content != null || style.variant == SuperButtonVariant.icon,
-      'SuperButton requires a label unless variant is icon (Phase 2).',
-    );
+class _SuperButtonState extends State<SuperButton> {
+  bool _hover = false;
+  bool _pressed = false;
+  late final FocusNode _focusNode = FocusNode();
 
-    return _wrapEffects(
-      context,
-      ConstrainedBox(
-        constraints: BoxConstraints(minWidth: minSize, minHeight: minSize),
-        child: _buildButton(
-          context: context,
-          scheme: scheme,
-          tokens: tokens,
-          radius: radius,
-          onPressed: interactive ? onPressed : null,
-          child: content ?? const SizedBox.shrink(),
-        ),
-      ),
+  bool get _hasLoadingSpinnerEffect =>
+      widget.effects.any((SuperButtonEffect e) => e is SuperLoadingSpinnerEffect);
+
+  SuperButtonInteractionState get _interaction {
+    return SuperButtonInteractionState(
+      pressed: _pressed,
+      hovered: _hover,
+      focused: _focusNode.hasFocus,
+      enabled: widget.enabled,
+      loading: widget.loading,
+      selected: false,
     );
   }
 
-  Widget? _buildContent(BuildContext context) {
-    if (label == null && leading == null && trailing == null) {
+  @override
+  void initState() {
+    super.initState();
+    _focusNode.addListener(_onFocusNodeChanged);
+  }
+
+  @override
+  void dispose() {
+    _focusNode.removeListener(_onFocusNodeChanged);
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  void _onFocusNodeChanged() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bool interactive = widget.enabled && widget.onPressed != null && !widget.loading;
+    final SuperButtonTokens tokens = SuperButtonTokens.of(widget.style);
+    final double minSize = tokens.minTapTarget;
+    const double defaultRadius = 8;
+    final BorderRadius radius = tokens.borderRadiusFor(defaultRadius);
+    final SuperButtonColorResolution colors = SuperButtonColorResolver.resolve(
+      context,
+      widget.style,
+      _interaction,
+    );
+    final ColorScheme scheme = Theme.of(context).colorScheme;
+
+    final Widget? content = _buildContent();
+    assert(
+      content != null ||
+          ((widget.style.variant == SuperButtonVariant.icon ||
+                  widget.style.variant == SuperButtonVariant.fab) &&
+              widget.leading != null),
+      'SuperButton needs `label`/`trailing` content, or for icon/fab a non-null `leading`.',
+    );
+
+    Widget child = _wrapEffects(
+      ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: minSize,
+          minHeight: minSize,
+        ),
+        child: _buildButton(
+          focusNode: _focusNode,
+          scheme: scheme,
+          colors: colors,
+          tokens: tokens,
+          radius: radius,
+          onPressed: interactive ? widget.onPressed : null,
+          child: content ?? (widget.leading ?? const SizedBox.shrink()),
+        ),
+      ),
+    );
+
+    child = MouseRegion(
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      child: child,
+    );
+
+    child = Listener(
+      onPointerDown: (_) => setState(() => _pressed = true),
+      onPointerUp: (_) => setState(() => _pressed = false),
+      onPointerCancel: (_) => setState(() => _pressed = false),
+      child: child,
+    );
+
+    if (widget.tooltip != null) {
+      child = Tooltip(
+        message: widget.tooltip!,
+        child: child,
+      );
+    }
+
+    if (widget.semanticLabel != null) {
+      child = Semantics(
+        button: true,
+        label: widget.semanticLabel,
+        child: child,
+      );
+    } else {
+      child = Semantics(
+        button: true,
+        child: child,
+      );
+    }
+
+    return child;
+  }
+
+  Widget? _buildContent() {
+    if (widget.label == null && widget.leading == null && widget.trailing == null) {
       return null;
     }
+    final bool showRowSpinner = widget.loading && !_hasLoadingSpinnerEffect;
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        if (leading != null) ...<Widget>[leading!, const SizedBox(width: 8)],
-        if (label != null) Flexible(child: label!),
-        if (trailing != null) ...<Widget>[
+        if (widget.leading != null) ...<Widget>[widget.leading!, const SizedBox(width: 8)],
+        if (widget.label != null) Flexible(child: widget.label!),
+        if (widget.trailing != null) ...<Widget>[
           const SizedBox(width: 8),
-          trailing!,
+          widget.trailing!,
         ],
-        if (loading) ...<Widget>[
+        if (showRowSpinner) ...<Widget>[
           const SizedBox(width: 8),
           const SizedBox(
             width: 16,
@@ -102,107 +189,120 @@ class SuperButton extends StatelessWidget {
   }
 
   Widget _buildButton({
-    required BuildContext context,
+    required FocusNode focusNode,
     required ColorScheme scheme,
+    required SuperButtonColorResolution colors,
     required SuperButtonTokens tokens,
     required BorderRadius radius,
     required VoidCallback? onPressed,
     required Widget child,
   }) {
-    switch (style.variant) {
+    final RoundedRectangleBorder shape = RoundedRectangleBorder(borderRadius: radius);
+    final TextStyle? textStyle = widget.style.textStyleOverride;
+
+    final BorderSide? side = widget.style.borderOverride ??
+        (colors.outline != null ? BorderSide(color: colors.outline!) : null);
+
+    switch (widget.style.variant) {
       case SuperButtonVariant.filled:
       case SuperButtonVariant.destructive:
+      case SuperButtonVariant.icon:
+      case SuperButtonVariant.fab:
+      case SuperButtonVariant.gradient:
+      case SuperButtonVariant.glass:
+      case SuperButtonVariant.neumorphic:
         return FilledButton(
+          focusNode: focusNode,
           onPressed: onPressed,
           style: FilledButton.styleFrom(
-            backgroundColor: style.tone == SuperButtonTone.danger
-                ? scheme.error
-                : null,
-            foregroundColor: style.tone == SuperButtonTone.danger
-                ? scheme.onError
-                : null,
+            backgroundColor: colors.background,
+            foregroundColor: colors.foreground,
             padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
+            shape: shape,
+            textStyle: textStyle,
+            shadowColor: colors.shadow,
           ),
           child: child,
         );
       case SuperButtonVariant.tonal:
         return FilledButton.tonal(
+          focusNode: focusNode,
           onPressed: onPressed,
           style: FilledButton.styleFrom(
+            backgroundColor: colors.background,
+            foregroundColor: colors.foreground,
             padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
+            shape: shape,
+            textStyle: textStyle,
+            shadowColor: colors.shadow,
           ),
           child: child,
         );
       case SuperButtonVariant.outlined:
         return OutlinedButton(
+          focusNode: focusNode,
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
+            foregroundColor: colors.foreground,
+            backgroundColor: colors.background,
             padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
-            side: style.borderOverride,
+            shape: shape,
+            textStyle: textStyle,
+            side: side,
           ),
           child: child,
         );
       case SuperButtonVariant.text:
-      case SuperButtonVariant.link:
         return TextButton(
+          focusNode: focusNode,
           onPressed: onPressed,
           style: TextButton.styleFrom(
+            foregroundColor: colors.foreground,
             padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
+            shape: shape,
+            textStyle: textStyle,
+          ),
+          child: child,
+        );
+      case SuperButtonVariant.link:
+        return TextButton(
+          focusNode: focusNode,
+          onPressed: onPressed,
+          style: TextButton.styleFrom(
+            foregroundColor: colors.foreground ?? scheme.primary,
+            padding: tokens.contentPadding,
+            shape: shape,
+            textStyle: textStyle?.copyWith(
+                  decoration: TextDecoration.underline,
+                ) ??
+                const TextStyle(decoration: TextDecoration.underline),
           ),
           child: child,
         );
       case SuperButtonVariant.elevated:
         return ElevatedButton(
+          focusNode: focusNode,
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
+            backgroundColor: colors.background,
+            foregroundColor: colors.foreground,
+            elevation: colors.elevation,
+            shadowColor: colors.shadow,
             padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
-          ),
-          child: child,
-        );
-      case SuperButtonVariant.icon:
-      case SuperButtonVariant.fab:
-        return FilledButton(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom(
-            padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
-          ),
-          child: child,
-        );
-      case SuperButtonVariant.gradient:
-      case SuperButtonVariant.glass:
-      case SuperButtonVariant.neumorphic:
-        return FilledButton(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom(
-            padding: tokens.contentPadding,
-            shape: RoundedRectangleBorder(borderRadius: radius),
-            textStyle: style.textStyleOverride,
+            shape: shape,
+            textStyle: textStyle,
           ),
           child: child,
         );
     }
   }
 
-  Widget _wrapEffects(BuildContext context, Widget child) {
+  Widget _wrapEffects(Widget child) {
     Widget out = child;
-    for (final SuperButtonEffect e in effects) {
+    for (final SuperButtonEffect e in widget.effects) {
       out = e.apply(
         context,
-        loading
-            ? _placeholderInteraction.copyWith(loading: true, enabled: enabled)
-            : _placeholderInteraction.copyWith(enabled: enabled),
+        _interaction,
         out,
       );
     }

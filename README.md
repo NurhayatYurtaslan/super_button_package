@@ -3,9 +3,11 @@
 [![pub package](https://img.shields.io/pub/v/super_button_package.svg)](https://pub.dev/packages/super_button_package)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/NurhayatYurtaslan/super_button_package/blob/main/LICENSE)
 
-Composable **SuperButton** API with **SuperButtonStyle** (variant, size, shape, tone) and a stack of **SuperButtonEffect** hooks. The repository includes a full **example** gallery (variants, combinations, effects playground, basic accessibility screen).
+Composable **SuperButton** API with **SuperButtonStyle** (variant, size, shape, tone) and a stack of **SuperButtonEffect** hooks. Out of the box: **theme resolution** via `SuperButtonColorResolver` (per tone / variant / state), and built-in effects (scale, focus ring, ink tint, elevation, loading overlay). The repository includes a full **example** gallery (filterable matrix on Gallery, effects playground, combinations, basic accessibility).
 
 > **Status — pre-1.0:** the public API and visuals will evolve. Follow [SemVer](https://semver.org) and the [CHANGELOG](CHANGELOG.md); lock to a specific version in apps.
+>
+> **Pub.dev version:** the published version is the `version` field in [`pubspec.yaml`](https://github.com/NurhayatYurtaslan/super_button_package/blob/main/pubspec.yaml) at the release tag. Current line release: **0.2.1** (`super_button_package: ^0.2.1`).
 
 ## Install
 
@@ -13,7 +15,7 @@ Add to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  super_button_package: ^0.1.0
+  super_button_package: ^0.2.1
 ```
 
 Run:

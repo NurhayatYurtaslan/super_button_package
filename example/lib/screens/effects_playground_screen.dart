@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:super_button_package/super_button_package.dart';
 
-/// Toggles and sliders for effects (Phase 2).
-class EffectsPlaygroundScreen extends StatelessWidget {
+/// Interactive [SuperButtonEffect] samples (sliders; see [doc/PHASE_2_PACKAGE_AND_EXAMPLES.md] §2.6).
+class EffectsPlaygroundScreen extends StatefulWidget {
   const EffectsPlaygroundScreen({super.key});
+
+  @override
+  State<EffectsPlaygroundScreen> createState() => _EffectsPlaygroundScreenState();
+}
+
+class _EffectsPlaygroundScreenState extends State<EffectsPlaygroundScreen> {
+  double _pressedScale = 0.95;
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +23,30 @@ class EffectsPlaygroundScreen extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         Text(
-          'Phase 1 scaffold: add effect toggles in Phase 2.',
+          'Tweak [SuperScaleEffect] press scale. Other effects are combined on the same button.',
           style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        const SizedBox(height: 8),
+        Text('Scale: ${_pressedScale.toStringAsFixed(2)}'),
+        Slider(
+          min: 0.9,
+          max: 1.0,
+          value: _pressedScale,
+          onChanged: (double v) => setState(() => _pressedScale = v),
         ),
         const SizedBox(height: 16),
         SuperButton(
           onPressed: () {},
-          label: const Text('With identity effect'),
-          style: const SuperButtonStyle(variant: SuperButtonVariant.tonal),
-          effects: const <SuperButtonEffect>[SuperIdentityEffect()],
+          label: const Text('Scale + focus + ink'),
+          style: const SuperButtonStyle(
+            variant: SuperButtonVariant.filled,
+            tone: SuperButtonTone.primary,
+          ),
+          effects: <SuperButtonEffect>[
+            SuperScaleEffect(pressedScale: _pressedScale),
+            const SuperFocusRingEffect(),
+            const SuperInkRippleEffect(),
+          ],
         ),
       ],
     );

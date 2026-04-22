@@ -24,4 +24,23 @@ void main() {
     await tester.pump();
     expect(taps, 0);
   });
+
+  testWidgets('loading state blocks onPressed', (WidgetTester tester) async {
+    int taps = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: SuperButton(
+            onPressed: () => taps++,
+            label: const Text('Load'),
+            style: const SuperButtonStyle(variant: SuperButtonVariant.filled),
+            loading: true,
+          ),
+        ),
+      ),
+    );
+    await tester.tap(find.text('Load'));
+    await tester.pump();
+    expect(taps, 0);
+  });
 }

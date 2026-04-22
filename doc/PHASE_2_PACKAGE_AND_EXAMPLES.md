@@ -220,3 +220,13 @@ Phase 2 is done when:
 - The `example/` app demonstrates all variants, sizes, shapes, states, and effects.
 - Analyzer and tests pass locally.
 
+### 2.9 Current implementation status (as of package 0.2.1)
+
+- **Layout / API** — [doc/PHASE_1_SETUP.md](PHASE_1_SETUP.md) public surface: `SuperButton`, `SuperButtonStyle`, `SuperButtonEffect`, `SuperButtonTokens`, and **interaction** state.
+- **Style resolution** — `SuperButtonColorResolver` + `SuperButtonColorResolution` map [variant + tone + interaction] to `ColorScheme` roles; optional **style overrides** still apply first.
+- **Utilities** — `SuperColorUtils` (disabled foreground opacity) for resolvers and tests.
+- **Effects (built-in)** — `SuperInkRippleEffect` (subtree splash/highlight), `SuperScaleEffect`, `SuperElevationEffect`, `SuperFocusRingEffect`, `SuperLoadingSpinnerEffect`, plus `SuperIdentityEffect` for no-op stacks.
+- **Widget** — `SuperButton` is stateful: hover (desktop/web), press, **shared** `FocusNode` with M3 `Button` for keyboard focus, loading disables press; effects receive live `SuperButtonInteractionState` when not loading (loading path still uses enabled/interaction for spinner effects).
+- **Example** — Gallery: variant/size/shape/tone, enabled/loading, effect toggles, **copy** snippet. Main: `NavigationRail` on wide viewports, **seed color** + theme toggle. Effects playground: `SuperScaleEffect` **slider** + stack demo.
+- **Still evolving** (toward v1.0) — full matrix/filters in Gallery, more resolver coverage for `gradient` / `glass` / `neumorphic`, and optional haptics / shimmer.
+

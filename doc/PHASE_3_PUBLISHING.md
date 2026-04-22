@@ -39,20 +39,20 @@ Before publishing:
   - `issue_tracker` (recommended)
   - `topics` (recommended)
 
-Recommended `pubspec.yaml` snippet:
+Recommended `pubspec.yaml` snippet (align `version` with this release; example shows **0.2.1**):
 
 ```yaml
 name: super_button_package
 description: A complete Flutter button kit with composable effects and a showcase example app.
-version: 0.1.0
-repository: https://github.com/<org-or-user>/super_button_package
-homepage: https://github.com/<org-or-user>/super_button_package
-issue_tracker: https://github.com/<org-or-user>/super_button_package/issues
+version: 0.2.1
+repository: https://github.com/NurhayatYurtaslan/super_button_package
+homepage: https://github.com/NurhayatYurtaslan/super_button_package
+issue_tracker: https://github.com/NurhayatYurtaslan/super_button_package/issues
 topics:
   - ui
   - widgets
   - button
-  - flutter
+  - design-system
 
 environment:
   sdk: ">=3.4.0 <4.0.0"
@@ -75,8 +75,8 @@ dev_dependencies:
 
 Recommended early-stage path:
 
-- Start at `0.1.0`
-- Iterate until API feels stable
+- **This repository** tags releases such as `v0.2.1` to match `pubspec.yaml` `version`.
+- New packages often start at `0.1.0`, then increment patch/minor per SemVer and the repo [CHANGELOG](../CHANGELOG.md).
 - Release `1.0.0` when you commit to API stability
 
 ### 3.4 Validate locally
@@ -166,7 +166,7 @@ flutter pub publish
 Optional (recommended) git tagging:
 
 ```bash
-git tag v0.1.0
+git tag v0.2.1
 git push --tags
 ```
 
