@@ -11,7 +11,8 @@ class SuperButtonTokens {
 
   final SuperButtonStyle _style;
 
-  static SuperButtonTokens of(SuperButtonStyle style) => SuperButtonTokens._(style);
+  static SuperButtonTokens of(SuperButtonStyle style) =>
+      SuperButtonTokens._(style);
 
   EdgeInsets get contentPadding {
     if (_style.paddingOverride != null) {

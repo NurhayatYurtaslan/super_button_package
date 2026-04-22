@@ -43,4 +43,22 @@ void main() {
     await tester.pump();
     expect(taps, 0);
   });
+
+  testWidgets('SuperButton shows label and leading icon',
+      (WidgetTester tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        home: Scaffold(
+          body: SuperButton(
+            onPressed: null,
+            label: Text('Next'),
+            leading: Icon(Icons.arrow_forward),
+            style: SuperButtonStyle(variant: SuperButtonVariant.filled),
+          ),
+        ),
+      ),
+    );
+    expect(find.text('Next'), findsOneWidget);
+    expect(find.byIcon(Icons.arrow_forward), findsOneWidget);
+  });
 }

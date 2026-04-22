@@ -35,9 +35,15 @@ class SuperInkRippleEffect extends SuperButtonEffect {
 }
 
 class SuperScaleEffect extends SuperButtonEffect {
-  const SuperScaleEffect({this.pressedScale = 0.98});
+  const SuperScaleEffect({
+    this.pressedScale = 0.98,
+    this.duration = const Duration(milliseconds: 100),
+    this.curve = Curves.easeInOut,
+  });
 
   final double pressedScale;
+  final Duration duration;
+  final Curve curve;
 
   @override
   Widget apply(
@@ -45,18 +51,21 @@ class SuperScaleEffect extends SuperButtonEffect {
     SuperButtonInteractionState state,
     Widget child,
   ) {
-    final double s = (state.pressed && state.enabled && !state.loading) ? pressedScale : 1.0;
-    return Transform.scale(
-      scale: s,
-      alignment: Alignment.center,
-      filterQuality: FilterQuality.low,
+    final double s =
+        (state.pressed && state.enabled && !state.loading) ? pressedScale : 1.0;
+    return AnimatedContainer(
+      duration: duration,
+      curve: curve,
+      transform: Matrix4.diagonal3Values(s, s, 1.0),
+      transformAlignment: Alignment.center,
       child: child,
     );
   }
 }
 
 class SuperElevationEffect extends SuperButtonEffect {
-  const SuperElevationEffect({this.hovered = 2.0, this.pressed = 1.0, this.base = 0.0});
+  const SuperElevationEffect(
+      {this.hovered = 2.0, this.pressed = 1.0, this.base = 0.0});
 
   final double base;
   final double hovered;

@@ -23,6 +23,7 @@ class SuperButton extends StatefulWidget {
     this.effects = const [],
     this.loading = false,
     this.enabled = true,
+    this.selected = false,
     this.semanticLabel,
     this.tooltip,
   });
@@ -35,6 +36,9 @@ class SuperButton extends StatefulWidget {
   final List<SuperButtonEffect> effects;
   final bool loading;
   final bool enabled;
+
+  /// Visual / semantic "on" state (e.g. filter, segment). Drives [SuperButtonColorResolver] and [Semantics.selected].
+  final bool selected;
 
   /// [Semantics] label; falls back to the widget’s [tooltip] if non-null.
   final String? semanticLabel;
@@ -51,8 +55,8 @@ class _SuperButtonState extends State<SuperButton> {
   bool _pressed = false;
   late final FocusNode _focusNode = FocusNode();
 
-  bool get _hasLoadingSpinnerEffect =>
-      widget.effects.any((SuperButtonEffect e) => e is SuperLoadingSpinnerEffect);
+  bool get _hasLoadingSpinnerEffect => widget.effects
+      .any((SuperButtonEffect e) => e is SuperLoadingSpinnerEffect);
 
   SuperButtonInteractionState get _interaction {
     return SuperButtonInteractionState(
@@ -61,7 +65,7 @@ class _SuperButtonState extends State<SuperButton> {
       focused: _focusNode.hasFocus,
       enabled: widget.enabled,
       loading: widget.loading,
-      selected: false,
+      selected: widget.selected,
     );
   }
 
@@ -86,7 +90,8 @@ class _SuperButtonState extends State<SuperButton> {
 
   @override
   Widget build(BuildContext context) {
-    final bool interactive = widget.enabled && widget.onPressed != null && !widget.loading;
+    final bool interactive =
+        widget.enabled && widget.onPressed != null && !widget.loading;
     final SuperButtonTokens tokens = SuperButtonTokens.of(widget.style);
     final double minSize = tokens.minTapTarget;
     const double defaultRadius = 8;
@@ -98,7 +103,7 @@ class _SuperButtonState extends State<SuperButton> {
     );
     final ColorScheme scheme = Theme.of(context).colorScheme;
 
-    final Widget? content = _buildContent();
+    final Widget? content = _buildContent(colors);
     assert(
       content != null ||
           ((widget.style.variant == SuperButtonVariant.icon ||
@@ -145,36 +150,70 @@ class _SuperButtonState extends State<SuperButton> {
       );
     }
 
-    if (widget.semanticLabel != null) {
-      child = Semantics(
-        button: true,
-        label: widget.semanticLabel,
-        child: child,
-      );
-    } else {
-      child = Semantics(
-        button: true,
-        child: child,
-      );
-    }
+    child = Semantics(
+      button: true,
+      label: widget.semanticLabel,
+      selected: widget.selected,
+      child: child,
+    );
 
     return child;
   }
 
-  Widget? _buildContent() {
-    if (widget.label == null && widget.leading == null && widget.trailing == null) {
+  Widget? _buildContent(SuperButtonColorResolution colors) {
+    if (widget.label == null &&
+        widget.leading == null &&
+        widget.trailing == null) {
       return null;
     }
     final bool showRowSpinner = widget.loading && !_hasLoadingSpinnerEffect;
+    final Color? fg = colors.foreground;
+    // Ensure label/icon color matches the resolved role (M3 + web: nested Row/Flexible
+    // can miss DefaultTextStyle from ButtonStyle, hurting contrast in light mode).
+    Widget? inkLeading = widget.leading;
+    Widget? inkLabel = widget.label;
+    Widget? inkTrailing = widget.trailing;
+    if (fg != null) {
+      if (inkLeading != null) {
+        final Widget lead = inkLeading;
+        inkLeading = IconTheme.merge(
+          data: IconThemeData(color: fg),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(color: fg),
+            child: lead,
+          ),
+        );
+      }
+      if (inkLabel != null) {
+        final Widget lab = inkLabel;
+        inkLabel = IconTheme.merge(
+          data: IconThemeData(color: fg),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(color: fg),
+            child: lab,
+          ),
+        );
+      }
+      if (inkTrailing != null) {
+        final Widget trail = inkTrailing;
+        inkTrailing = IconTheme.merge(
+          data: IconThemeData(color: fg),
+          child: DefaultTextStyle.merge(
+            style: TextStyle(color: fg),
+            child: trail,
+          ),
+        );
+      }
+    }
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        if (widget.leading != null) ...<Widget>[widget.leading!, const SizedBox(width: 8)],
-        if (widget.label != null) Flexible(child: widget.label!),
-        if (widget.trailing != null) ...<Widget>[
+        if (inkLeading != null) ...<Widget>[inkLeading, const SizedBox(width: 8)],
+        if (inkLabel != null) Flexible(child: inkLabel),
+        if (inkTrailing != null) ...<Widget>[
           const SizedBox(width: 8),
-          widget.trailing!,
+          inkTrailing,
         ],
         if (showRowSpinner) ...<Widget>[
           const SizedBox(width: 8),
@@ -197,7 +236,8 @@ class _SuperButtonState extends State<SuperButton> {
     required VoidCallback? onPressed,
     required Widget child,
   }) {
-    final RoundedRectangleBorder shape = RoundedRectangleBorder(borderRadius: radius);
+    final RoundedRectangleBorder shape =
+        RoundedRectangleBorder(borderRadius: radius);
     final TextStyle? textStyle = widget.style.textStyleOverride;
 
     final BorderSide? side = widget.style.borderOverride ??
@@ -208,6 +248,7 @@ class _SuperButtonState extends State<SuperButton> {
       case SuperButtonVariant.destructive:
       case SuperButtonVariant.icon:
       case SuperButtonVariant.fab:
+      // gradient / glass / neumorphic: see doc/PLACEHOLDER_VARIANTS.md (filled fallback until v1 paint path).
       case SuperButtonVariant.gradient:
       case SuperButtonVariant.glass:
       case SuperButtonVariant.neumorphic:

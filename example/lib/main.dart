@@ -126,11 +126,7 @@ class _SuperButtonShowcaseAppState extends State<SuperButtonShowcaseApp> {
                         ],
                       ),
                       const VerticalDivider(width: 1),
-                      Expanded(
-                        child: SafeArea(
-                          child: _pages[_index],
-                        ),
-                      ),
+                      Expanded(child: SafeArea(child: _pages[_index])),
                     ],
                   )
                 : SafeArea(child: _pages[_index]),
@@ -138,7 +134,8 @@ class _SuperButtonShowcaseAppState extends State<SuperButtonShowcaseApp> {
                 ? null
                 : NavigationBar(
                     selectedIndex: _index,
-                    onDestinationSelected: (int i) => setState(() => _index = i),
+                    onDestinationSelected: (int i) =>
+                        setState(() => _index = i),
                     destinations: const <NavigationDestination>[
                       NavigationDestination(
                         icon: Icon(Icons.grid_view_outlined),

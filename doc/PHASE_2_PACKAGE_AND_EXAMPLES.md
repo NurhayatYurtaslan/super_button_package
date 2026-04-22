@@ -220,13 +220,13 @@ Phase 2 is done when:
 - The `example/` app demonstrates all variants, sizes, shapes, states, and effects.
 - Analyzer and tests pass locally.
 
-### 2.9 Current implementation status (as of package 0.2.1)
+### 2.9 Current implementation status (as of package 0.3.x)
 
-- **Layout / API** — [doc/PHASE_1_SETUP.md](PHASE_1_SETUP.md) public surface: `SuperButton`, `SuperButtonStyle`, `SuperButtonEffect`, `SuperButtonTokens`, and **interaction** state.
-- **Style resolution** — `SuperButtonColorResolver` + `SuperButtonColorResolution` map [variant + tone + interaction] to `ColorScheme` roles; optional **style overrides** still apply first.
+- **Layout / API** — [doc/PHASE_1_SETUP.md](PHASE_1_SETUP.md) public surface: `SuperButton` (+ `selected`), `SuperButtonStyle`, `SuperButtonEffect`, `SuperButtonTokens`, and **interaction** state.
+- **Style resolution** — `SuperButtonColorResolver` + `SuperButtonColorResolution` map [variant + tone + enabled + **selected**] to `ColorScheme` roles; optional **style overrides** apply first, then **selected** (chip-like `secondaryContainer` / `onSecondaryContainer` except danger), then disabled.
 - **Utilities** — `SuperColorUtils` (disabled foreground opacity) for resolvers and tests.
-- **Effects (built-in)** — `SuperInkRippleEffect` (subtree splash/highlight), `SuperScaleEffect`, `SuperElevationEffect`, `SuperFocusRingEffect`, `SuperLoadingSpinnerEffect`, plus `SuperIdentityEffect` for no-op stacks.
-- **Widget** — `SuperButton` is stateful: hover (desktop/web), press, **shared** `FocusNode` with M3 `Button` for keyboard focus, loading disables press; effects receive live `SuperButtonInteractionState` when not loading (loading path still uses enabled/interaction for spinner effects).
-- **Example** — Gallery: variant/size/shape/tone, enabled/loading, effect toggles, **copy** snippet. Main: `NavigationRail` on wide viewports, **seed color** + theme toggle. Effects playground: `SuperScaleEffect` **slider** + stack demo.
-- **Still evolving** (toward v1.0) — full matrix/filters in Gallery, more resolver coverage for `gradient` / `glass` / `neumorphic`, and optional haptics / shimmer.
+- **Effects (built-in)** — `SuperInkRippleEffect`, `SuperScaleEffect` (animated `Matrix4` scale + duration), `SuperElevationEffect`, `SuperFocusRingEffect`, `SuperLoadingSpinnerEffect`, `SuperIdentityEffect`.
+- **Widget** — `SuperButton` is stateful: hover, press, `FocusNode` on M3 buttons, `Semantics.selected`; loading disables press.
+- **Example** — Gallery: `CustomScrollView` + filters including **Selected**, effect toggles, copyable snippet, `VariantGrid`. Combinations: **matrix** (v1 min variants × size or tone) with horizontal scroll. Effects playground: per-effect **toggles and sliders** (scale, duration, ring width, elevation, spinner). Accessibility: `FocusScope` + `TextField` + buttons with `semanticLabel` / `tooltip`. Main: `NavigationRail` (wide) + **seed** + theme. Placeholder doc: [PLACEHOLDER_VARIANTS.md](PLACEHOLDER_VARIANTS.md). Toggle/segmented/chip: [PHASE_1_FUTURE_CATALOG.md](PHASE_1_FUTURE_CATALOG.md).
+- **Still evolving (toward v1.0)** — true `gradient` / `glass` / `neumorphic` paint paths; optional `SuperShimmerEffect` / haptics; gallery code snippet could emit exact non-`const` effect lists.
 
