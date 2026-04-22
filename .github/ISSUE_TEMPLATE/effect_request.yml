@@ -1,0 +1,56 @@
+name: ✨ Effect request
+description: Request a new composable button effect (ripple/scale/elevation/glow/shimmer/progress/haptics/etc.)
+title: "[EFFECT] "
+labels: ["effect", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template when requesting a new **effect** for the effect stack.
+
+  - type: input
+    id: effect_name
+    attributes:
+      label: Effect name
+      placeholder: "Shimmer overlay"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What should the effect do?
+      placeholder: On loading, shimmer should animate left-to-right with configurable speed...
+    validations:
+      required: true
+
+  - type: textarea
+    id: parameters
+    attributes:
+      label: Parameters / customization (optional)
+      placeholder: |
+        - duration: ...
+        - intensity: ...
+        - color: ...
+        - enabledInStates: ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: interactions
+    attributes:
+      label: Interaction with states
+      placeholder: Works on hovered/focused, disabled should reduce intensity, loading should enable by default...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Documentation + example coverage
+      options:
+        - label: Add this effect to docs/PHASE_1_SETUP.md capability contract and per-effect list
+          required: true
+        - label: Demonstrate this effect in example/ Effects Playground
+          required: true
+

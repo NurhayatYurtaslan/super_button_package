@@ -1,0 +1,50 @@
+---
+description: Versioning, tagging, and pub.dev release rules (SemVer, pubspec, CHANGELOG) for this package.
+alwaysApply: true
+---
+
+## SemVer (Dart / pub)
+
+- The published version is **`pubspec.yaml` `version` only** (not git tags, not branch names).
+- Use **strict SemVer**: `MAJOR.MINOR.PATCH` (optionally `+build` if you truly need it, but most packages avoid `+` unless you have a reason).
+- **Pre-1.0.0** (`0.y.z`):
+  - Treat **minor** bumps as the normal place for **breaking** API changes.
+  - **Patch** bumps for bug fixes and small non-breaking changes.
+- **`1.0.0+`**:
+  - **MAJOR**: breaking public API or intentionally breaking theming/behavior
+  - **MINOR**: backward compatible features
+  - **PATCH**: backward compatible bug fixes
+
+## What counts as a breaking change (typical for UI packages)
+
+- Renaming/removing public types (`SuperButton*`, public enums)
+- Changing default visuals in a way that can break user layouts/tests
+- Changing semantics/focus/keyboard behavior incompatibly
+- Tightening SDK constraints in a way that blocks existing consumers (often treated as breaking)
+
+## Release hygiene (before publishing)
+
+- Bump `version` in `pubspec.yaml` **in the same change** that updates:
+  - `CHANGELOG.md` (user-facing summary)
+- Ensure `repository` / `issue_tracker` (and `homepage` if used) are correct and consistent.
+- Remove `publish_to: 'none'` only when you intend to publish.
+- After publishing, create a **git tag** that matches the published version:
+  - Tag format: `vX.Y.Z` (example: `v0.3.1`)
+
+## Changelog expectations
+
+- Under each version header, list:
+  - **Added** / **Changed** / **Fixed** (keep it short, user-facing)
+- If you are preparing multiple unreleased items, you may use `## [Unreleased]` and fold into a version at release time.
+
+## Branch/commit correlation (recommended)
+
+- Prefer a release commit message like:
+  - `chore(release): bump version to 0.3.0`
+- If you also tag, mention the same version in the tag annotation/body (optional, but nice).
+
+## Anti-patterns
+
+- Publishing without a version bump
+- Bumping `version` without a `CHANGELOG` entry
+- Mixing multiple unrelated “release reasons” in one version bump (harder to support users)

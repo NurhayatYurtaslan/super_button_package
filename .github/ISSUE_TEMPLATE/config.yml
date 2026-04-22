@@ -1,0 +1,9 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 💬 Questions / Discussions
+    url: https://github.com/<org-or-user>/<repo>/discussions
+    about: Please use Discussions for usage questions and open-ended design topics.
+  - name: 📚 Documentation (Phase docs)
+    url: https://github.com/<org-or-user>/<repo>/blob/main/docs/PHASE_1_SETUP.md
+    about: Read the project docs (Phase 1/2/3) before filing an issue.
+

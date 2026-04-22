@@ -1,0 +1,73 @@
+name: ✨ Feature request
+description: Propose a new capability for super_button_package
+title: "[FEATURE] "
+labels: ["enhancement", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Please describe the user-facing outcome and provide examples/screenshots if relevant.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I searched existing feature requests
+          required: true
+        - label: This aligns with the package goal (comprehensive buttons + composable effects + showcase)
+          required: true
+
+  - type: dropdown
+    id: request_type
+    attributes:
+      label: What are you requesting?
+      options:
+        - New button variant (e.g., glass, gradient)
+        - New toggle/segmented/chip-like behavior
+        - New effect (ripple/scale/glow/shimmer/etc.)
+        - Style/theming improvement
+        - Accessibility improvement
+        - Example app improvement
+        - Documentation improvement
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      placeholder: I need a segmented control that supports keyboard arrow navigation...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: Add SuperSegmentedControl with single/multi select and a11y semantics...
+    validations:
+      required: true
+
+  - type: textarea
+    id: api
+    attributes:
+      label: Proposed API (optional)
+      render: dart
+      placeholder: |
+        SuperButton(
+          style: SuperButtonStyle(variant: SuperButtonVariant.glass),
+          effects: [SuperGlowEffect()],
+        )
+    validations:
+      required: false
+
+  - type: textarea
+    id: example_coverage
+    attributes:
+      label: Example app coverage (what should the gallery show?)
+      placeholder: Add a new section under Effects Playground with a toggle and intensity slider...
+    validations:
+      required: false
+

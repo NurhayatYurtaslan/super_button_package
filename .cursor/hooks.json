@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeShellExecution": [
+      {
+        "type": "prompt",
+        "matcher": "flutter\\s+pub\\s+publish",
+        "timeout": 15,
+        "failClosed": false,
+        "prompt": "You are a release gate for a Flutter package publish. If the command is `flutter pub publish` (or `--dry-run`), only allow it when the user has: (1) removed `publish_to: none`, (2) updated version + CHANGELOG, (3) has LICENSE, (4) ran analyze/test, (5) example/ runs. If not satisfied, respond with permission=ask and a short checklist reminder. Hook input: $ARGUMENTS"
+      }
+    ]
+  }
+}

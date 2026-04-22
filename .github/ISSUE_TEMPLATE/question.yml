@@ -1,0 +1,29 @@
+name: ❓ Question / help
+description: Ask a question about using super_button_package
+title: "[QUESTION] "
+labels: ["question"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this is not a bug report, please consider using Discussions first.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+      placeholder: How do I create a segmented control style with glow-on-hover?
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      placeholder: |
+        - What you tried
+        - Target platforms
+        - Minimal code snippet (optional)
+    validations:
+      required: false
+

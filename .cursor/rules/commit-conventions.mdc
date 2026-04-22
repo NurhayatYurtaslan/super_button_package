@@ -1,0 +1,59 @@
+---
+description: Commit message and branching conventions (Conventional Commits) for this repository.
+alwaysApply: true
+---
+
+## Commits (Conventional Commits)
+
+- Use **Conventional Commits**: `type(scope): subject`
+- **Subject**:
+  - Imperative mood, sentence case, **no period** at the end
+  - Max **~72 characters** in the first line
+- **Body** (optional):
+  - Wrap at **~72** chars
+  - Explain *why* and *what changed* at a high level; avoid restating the diff
+- **Footer** (optional):
+  - `Fixes #123` / `Closes #123` when applicable
+
+## Allowed `type` values (prefer these)
+
+- `feat`: new user-facing behavior (new widget API, new variant, new effect, example screen)
+- `fix`: bug fix
+- `docs`: documentation-only changes
+- `refactor`: behavior-preserving restructure
+- `test`: tests only
+- `chore`: repo hygiene (formatting, tooling), non-user-facing
+- `ci`: CI-only changes
+- `revert`: revert commits (use `revert: ...`)
+
+## `scope` (use one; keep small)
+
+- `button`, `style`, `effects`, `example`, `docs`, `pub`, `a11y`, `theme`
+
+## Examples (good)
+
+- `feat(effects): add glow effect compositor`
+- `fix(button): prevent press while loading`
+- `docs(phase-2): document segmented control showcase`
+- `chore: enable stricter lints in analysis_options`
+- `revert: feat(effects): add glow effect compositor`
+
+## Examples (avoid)
+
+- `update stuff` (no type/scope; vague)
+- `WIP` / `asdf` (not descriptive)
+- Huge unrelated changes bundled into one commit (split when possible)
+
+## Branches (recommended)
+
+- `feat/<short-topic>`
+- `fix/<issue-or-topic>`
+- `docs/<topic>`
+- `chore/<topic>`
+
+## PR / commit hygiene
+
+- Prefer **one logical change per commit** (easy to review and bisect)
+- If you touch public API, update:
+  - `CHANGELOG.md` (when releases are being prepared)
+  - `docs/PHASE_*` if behavior/taxonomy changes

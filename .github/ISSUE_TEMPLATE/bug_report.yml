@@ -1,0 +1,104 @@
+name: 🐛 Bug report
+description: Report a bug in super_button_package
+title: "[BUG] "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug! Please include a minimal repro so we can fix it fast.
+
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I searched existing issues
+          required: true
+        - label: I tested with the latest published version (or latest main)
+          required: true
+        - label: I can provide a minimal reproduction
+          required: true
+
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Android
+        - iOS
+        - Web
+        - macOS
+        - Windows
+        - Linux
+        - Multiple
+    validations:
+      required: true
+
+  - type: dropdown
+    id: affected_area
+    attributes:
+      label: Affected area
+      options:
+        - Button variant styling (filled/outlined/text/etc.)
+        - Toggle / segmented / chip-like selection
+        - Effects (ripple/scale/elevation/glow/shimmer/etc.)
+        - Accessibility (focus/keyboard/semantics)
+        - Example app (gallery)
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you observed.
+      placeholder: When I press the button in loading state, it still triggers onPressed...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+      placeholder: onPressed should be disabled while loading...
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest snippet or repo steps to reproduce.
+      render: dart
+      placeholder: |
+        import 'package:flutter/material.dart';
+        import 'package:super_button_package/super_button_package.dart';
+
+        // Paste minimal code here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / stack trace (if any)
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      placeholder: |
+        - Package version: x.y.z
+        - Flutter: x.y.z
+        - Dart: x.y.z
+        - OS: macOS/Windows/Linux + version
+        - Device: emulator/device/browser
+    validations:
+      required: true
+

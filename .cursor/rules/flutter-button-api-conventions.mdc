@@ -1,0 +1,22 @@
+---
+description: Naming and API conventions for the Flutter button package (SuperButton, styles, effects).
+globs: **/*.dart
+alwaysApply: false
+---
+
+## Public API conventions
+
+- Public entrypoint: `lib/super_button_package.dart` exports only public types.
+- Implementation lives under `lib/src/` and is not exported unless intentionally public.
+
+## Naming
+
+- Widgets: `SuperButton`, `SuperToggleButton`, `SuperSegmentedControl` only if a separate widget is truly necessary.
+- Models: `SuperButtonStyle`, `SuperButtonVariant`, `SuperButtonSize`, `SuperButtonShape`, `SuperButtonTone`.
+- Effects: `Super*Effect` (e.g. `SuperScaleEffect`, `SuperInkRippleEffect`).
+
+## States
+
+- Ensure disabled/loading states are explicit and testable.
+- Avoid layout jitter between states (border width, padding, size).
+

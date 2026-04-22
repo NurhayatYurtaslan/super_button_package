@@ -1,0 +1,62 @@
+name: 🧩 Button variant request
+description: Request a specific button variant (filled/outlined/gradient/glass/neumorphic/link/destructive/etc.)
+title: "[VARIANT] "
+labels: ["variant", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this template when you want a new **button variant** (visual style) added.
+
+  - type: input
+    id: variant_name
+    attributes:
+      label: Variant name
+      placeholder: "Glass"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options:
+        - Action button
+        - Icon button
+        - Toggle / selection
+    validations:
+      required: true
+
+  - type: textarea
+    id: behavior
+    attributes:
+      label: State behavior requirements
+      description: Define visuals for disabled/loading/pressed/hovered/focused (and selected if toggle-like).
+      placeholder: |
+        - Disabled: ...
+        - Loading: ...
+        - Pressed: ...
+        - Hovered: ...
+        - Focused: ...
+        - Selected (if applicable): ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: theming
+    attributes:
+      label: Theming requirements
+      placeholder: Works in light/dark, respects seed color, provides good contrast...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Phase 1 checklist (confirmation)
+      options:
+        - label: This variant is listed in docs/PHASE_1_SETUP.md (or should be added there)
+          required: true
+        - label: This variant should appear in the example/ gallery and matrix views
+          required: true
+
