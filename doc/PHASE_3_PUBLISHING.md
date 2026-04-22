@@ -183,7 +183,7 @@ git push --tags
 
 - Verify the package page renders README/Changelog correctly
 - Check the “Example” section is present and useful
-- Add screenshots/GIFs to the repository and reference them from README
+- Add screenshots/GIFs to the repository (e.g. `assets/`, see root [`README`](../README.md#screenshots)) and reference them from README
 - Open a few issues/labels (bug/enhancement/help wanted) to organize future work
 
 ### 3.8 Common pitfalls

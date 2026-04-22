@@ -57,6 +57,14 @@ flutter run
 # Web: flutter run -d chrome
 ```
 
+### Screenshots
+
+*Combinations* (example app, light theme): v1 button variants with columns as **size** (xs–xl) or **tone** (primary, neutral, success, …).
+
+| By size (xs–xl) | By tone |
+| --- | --- |
+| ![Combinations: columns are sizes](assets/example-combinations-by-size.png) | ![Combinations: columns are tones](assets/example-combinations-by-tone.png) |
+
 ## Documentation
 
 * API reference: [pub.dev documentation tab](https://pub.dev/packages/super_button_package) (generated after publish).
@@ -64,7 +72,7 @@ flutter run
 
 ## Pub.dev follow-ups
 
-- After publishing, add **screenshots** (Gallery matrix, effects playground) under `doc/screenshots/` and link them from this README (see [`doc/PHASE_3_PUBLISHING.md`](doc/PHASE_3_PUBLISHING.md) §3.7).
+- Add more **screenshots** (e.g. Gallery, Effects) next to the files under [`assets/`](assets/) and link them here; keep images reasonably small for the published tarball (see [`doc/PHASE_3_PUBLISHING.md`](doc/PHASE_3_PUBLISHING.md) §3.7 and `.pubignore` if needed).
 - Run `dart pub global activate pana` then `pana` in the package root for a **quality** report.
 
 ## License

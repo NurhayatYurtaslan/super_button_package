@@ -1,16 +1,23 @@
-# super_button_package_example
+# super_button_package example
 
-A new Flutter project.
+Showcase app for **super_button_package**: **Gallery** (filters + code snippet), **Combinations** (variant × size/tone matrix), **Effects** playground, and **A11y** samples.
 
-## Getting Started
+## Run
 
-This project is a starting point for a Flutter application.
+```bash
+cd example
+flutter pub get
+flutter run
+# Web: flutter run -d chrome
+```
 
-A few resources to get you started if this is your first Flutter project:
+Wider viewports use a `NavigationRail`; narrow layouts use a bottom `NavigationBar`. Use the app bar to cycle the theme **seed color** and toggle **light / dark / system** theme.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Screenshots (repository root)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Preview images for the *Combinations* screen live next to the package README:
+
+- [`../assets/example-combinations-by-size.png`](../assets/example-combinations-by-size.png) — matrix with columns **By size** (xs–xl)
+- [`../assets/example-combinations-by-tone.png`](../assets/example-combinations-by-tone.png) — matrix with columns **By tone** (primary, neutral, success, …)
+
+For the [screenshot section in the package README on GitHub](https://github.com/NurhayatYurtaslan/super_button_package#screenshots), use the `assets/` image paths in the main project.
