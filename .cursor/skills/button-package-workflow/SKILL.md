@@ -18,7 +18,7 @@ Use this workflow when:
 
 ### 1) Update the Phase 1 analysis docs
 
-In `docs/PHASE_1_SETUP.md`:
+In `doc/PHASE_1_SETUP.md`:
 
 - Add the button type to the **Button types (catalog)** diagram if it is new
 - Confirm it is covered by the **capabilities contract** (states/content/sizes/shapes/theming/a11y/effects)
@@ -26,7 +26,7 @@ In `docs/PHASE_1_SETUP.md`:
 
 ### 2) Update the Phase 2 implementation + example plan
 
-In `docs/PHASE_2_PACKAGE_AND_EXAMPLES.md`:
+In `doc/PHASE_2_PACKAGE_AND_EXAMPLES.md`:
 
 - Confirm the public API surface (widget/style/effect) for the new capability
 - Ensure the `example/` app has a screen/section that demonstrates it
@@ -43,7 +43,7 @@ In `docs/PHASE_2_PACKAGE_AND_EXAMPLES.md`:
 
 ### 4) Pre-publish checklist (Phase 3)
 
-In `docs/PHASE_3_PUBLISHING.md`, follow the command flow:
+In `doc/PHASE_3_PUBLISHING.md`, follow the command flow:
 
 - `flutter analyze`
 - `flutter test`

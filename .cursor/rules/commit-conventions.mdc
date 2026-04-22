@@ -48,7 +48,7 @@ alwaysApply: true
 
 - `feat/<short-topic>`
 - `fix/<issue-or-topic>`
-- `docs/<topic>`
+- `doc/<topic>`
 - `chore/<topic>`
 
 ## PR / commit hygiene
@@ -56,4 +56,4 @@ alwaysApply: true
 - Prefer **one logical change per commit** (easy to review and bisect)
 - If you touch public API, update:
   - `CHANGELOG.md` (when releases are being prepared)
-  - `docs/PHASE_*` if behavior/taxonomy changes
+  - `doc/PHASE_*` if behavior/taxonomy changes

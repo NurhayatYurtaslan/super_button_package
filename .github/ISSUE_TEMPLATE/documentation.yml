@@ -8,9 +8,9 @@ body:
     attributes:
       label: Which doc?
       options:
-        - docs/PHASE_1_SETUP.md
-        - docs/PHASE_2_PACKAGE_AND_EXAMPLES.md
-        - docs/PHASE_3_PUBLISHING.md
+        - doc/PHASE_1_SETUP.md
+        - doc/PHASE_2_PACKAGE_AND_EXAMPLES.md
+        - doc/PHASE_3_PUBLISHING.md
         - README.md
         - Other
     validations:

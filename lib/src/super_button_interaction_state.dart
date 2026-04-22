@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-/// Input for style resolution and effect stacks (see docs/PHASE_2_PACKAGE_AND_EXAMPLES.md).
+/// Input for style resolution and effect stacks (see doc/PHASE_2_PACKAGE_AND_EXAMPLES.md).
 @immutable
 class SuperButtonInteractionState {
   const SuperButtonInteractionState({

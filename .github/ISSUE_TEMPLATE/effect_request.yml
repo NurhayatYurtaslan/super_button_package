@@ -49,7 +49,7 @@ body:
     attributes:
       label: Documentation + example coverage
       options:
-        - label: Add this effect to docs/PHASE_1_SETUP.md capability contract and per-effect list
+        - label: Add this effect to doc/PHASE_1_SETUP.md capability contract and per-effect list
           required: true
         - label: Demonstrate this effect in example/ Effects Playground
           required: true

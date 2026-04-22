@@ -1,14 +1,15 @@
 ---
-description: Button package docs + checklists must stay consistent (docs/ phases, example app, publishing).
+description: Button package docs + checklists must stay consistent (doc/ phases, example app, publishing).
 alwaysApply: true
 ---
 
 ## Documentation requirements (always)
 
-- Keep detailed guidance in `docs/` (Phase 1/2/3). `README.md` stays short and links to docs.
+- Keep detailed guidance in `doc/` (Phase 1/2/3). `README.md` stays short and links to `doc/`.
 - Any new button type, state, or effect must be reflected in:
-  - `docs/PHASE_1_SETUP.md` (catalog + capability contract + per-button checklist)
-  - `docs/PHASE_2_PACKAGE_AND_EXAMPLES.md` (API + example screen coverage)
+  - `doc/PHASE_1_SETUP.md` (catalog + capability contract + per-button checklist)
+  - `doc/PHASE_2_PACKAGE_AND_EXAMPLES.md` (API + example screen coverage)
+  - `doc/PHASE_3_PUBLISHING.md` (pub.dev checklist + pana)
 
 ## Publishing requirements
 

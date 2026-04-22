@@ -239,8 +239,8 @@ To publish on pub.dev you should have a Flutter **package** with an **example** 
   - `src/` (implementation)
 - `example/` (showcase app)
 - `test/`
-- `README.md` (short, points to docs)
-- `docs/` (this set)
+- `README.md` (short, points to `doc/`)
+- `doc/` (this set)
 - `LICENSE`, `CHANGELOG.md`
 
 ### 1.5.1 Creating the package scaffold (`flutter create --template=package`)

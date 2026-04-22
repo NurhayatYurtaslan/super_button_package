@@ -109,7 +109,7 @@ osmea/
 │   ├── shared/            # Shared utilities and constants
 │   └── main.dart          # App entry point
 ├── test/                  # Test files
-├── docs/                  # Documentation
+├── doc/                   # Documentation (pub layout: singular `doc`)
 └── assets/                # Images, fonts, and other assets
 ```
 
@@ -127,7 +127,7 @@ git checkout -b feature/amazing-feature
 git checkout -b fix/bug-description
 
 # Or for documentation
-git checkout -b docs/improvement-description
+git checkout -b doc/improvement-description
 ```
 
 ### 2. 🔧 Make Changes

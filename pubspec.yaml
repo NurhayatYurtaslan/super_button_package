@@ -1,11 +1,12 @@
 name: super_button_package
 description: >-
   Composable button widget (SuperButton) with a typed style model and
-  pluggable effect stack; showcase app in example/.
-version: 0.0.1
+  pluggable effect stack; includes an example showcase app.
+version: 0.1.0
 homepage: https://github.com/NurhayatYurtaslan/super_button_package
 repository: https://github.com/NurhayatYurtaslan/super_button_package
 issue_tracker: https://github.com/NurhayatYurtaslan/super_button_package/issues
+documentation: https://pub.dev/documentation/super_button_package/latest/
 topics:
   - widgets
   - button
@@ -13,8 +14,8 @@ topics:
   - design-system
 
 environment:
-  sdk: ^3.10.8
-  flutter: ">=1.17.0"
+  sdk: ">=3.4.0 <4.0.0"
+  flutter: ">=3.0.0"
 
 dependencies:
   flutter:

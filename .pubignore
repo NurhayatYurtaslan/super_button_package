@@ -1,0 +1,12 @@
+# Shrink the published package tarball (see doc/PHASE_3_PUBLISHING.md)
+.dart_tool/
+build/
+**/.DS_Store
+example/build/
+example/.dart_tool/
+.cursor/
+.github/
+*.iml
+# Repo-only; not needed on pub.dev
+pull_request_template.md
+commits.md

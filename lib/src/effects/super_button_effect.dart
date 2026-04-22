@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 import '../super_button_interaction_state.dart';
 
-/// Composable, stackable interaction / feedback layer (see docs).
+/// Composable, stackable interaction / feedback layer (see doc/PHASE_2_PACKAGE_AND_EXAMPLES.md).
 ///
 /// Phase 1 provides the type system; concrete effects land in Phase 2.
 abstract class SuperButtonEffect {

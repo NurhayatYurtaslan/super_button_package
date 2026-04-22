@@ -55,7 +55,7 @@ body:
     attributes:
       label: Phase 1 checklist (confirmation)
       options:
-        - label: This variant is listed in docs/PHASE_1_SETUP.md (or should be added there)
+        - label: This variant is listed in doc/PHASE_1_SETUP.md (or should be added there)
           required: true
         - label: This variant should appear in the example/ gallery and matrix views
           required: true
