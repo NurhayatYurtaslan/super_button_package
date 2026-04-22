@@ -1,9 +1,11 @@
 ## super_button_package
 
-Design + release documentation lives in `docs/`:
+Flutter package: composable **SuperButton**, **SuperButtonStyle**, and **SuperButtonEffect** stack, plus an **`example/`** showcase app.
 
-- `docs/PHASE_1_SETUP.md`
-- `docs/PHASE_2_PACKAGE_AND_EXAMPLES.md`
-- `docs/PHASE_3_PUBLISHING.md`
+Design and release documentation:
 
-This repository currently contains a Flutter app scaffold; the docs describe how to evolve it into a publishable package with an `example/` showcase app.
+- `docs/PHASE_1_SETUP.md` — taxonomy, repo layout, publishing checklist
+- `docs/PHASE_2_PACKAGE_AND_EXAMPLES.md` — implementation and example app plan
+- `docs/PHASE_3_PUBLISHING.md` — pub.dev flow
+
+Run the gallery: `cd example && flutter run`
